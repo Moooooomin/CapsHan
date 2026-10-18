@@ -37,6 +37,8 @@ private struct SettingsView: View {
 
     @AppStorage(Settings.Key.showHUD) private var showHUD = true
     @AppStorage(Settings.Key.hudDuration) private var duration = 0.8
+    @AppStorage(Settings.Key.hudFade) private var fade = true
+    @AppStorage(Settings.Key.hudFadeDuration) private var fadeDuration = 0.3
     @AppStorage(Settings.Key.hudTheme) private var theme = HUDTheme.system
     @AppStorage(Settings.Key.hudStyle) private var style = HUDStyle.liquidGlass
     @AppStorage(Settings.Key.glassStyle) private var glassStyle = GlassStyle.clear
@@ -73,6 +75,14 @@ private struct SettingsView: View {
                               label: String(format: "%.1f초", duration)) { editing in
                         if !editing { preview() }
                     }
+
+                    Toggle("페이드 인/아웃", isOn: $fade)
+
+                    sliderRow("페이드 시간", value: $fadeDuration, in: Settings.fadeDurationRange, step: 0.1,
+                              label: String(format: "%.1f초", fadeDuration)) { editing in
+                        if !editing { preview() }
+                    }
+                    .disabled(!fade)
 
                     sliderRow("팝업 크기", value: $hudScale, in: Settings.hudScaleRange, step: 0.1,
                               label: "\(Int((hudScale * 100).rounded()))%")
@@ -158,6 +168,7 @@ private struct SettingsView: View {
         .onChange(of: theme) { _ in preview() }
         .onChange(of: style) { _ in preview() }
         .onChange(of: glassStyle) { _ in preview() }
+        .onChange(of: fade) { _ in preview() }
         // Live preview while dragging: the popup stays up and follows the slider.
         .onChange(of: liquidStrength) { _ in preview() }
         .onChange(of: hudScale) { _ in preview() }

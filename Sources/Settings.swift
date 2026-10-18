@@ -26,6 +26,8 @@ enum Settings {
     enum Key {
         static let showHUD = "showHUD"
         static let hudDuration = "hudDuration"
+        static let hudFade = "hudFade"
+        static let hudFadeDuration = "hudFadeDuration"
         static let hudTheme = "hudTheme"
         static let hudStyle = "hudStyle"
         static let glassStyle = "glassStyle"
@@ -38,6 +40,7 @@ enum Settings {
     }
 
     static let durationRange: ClosedRange<Double> = 0.3...3.0
+    static let fadeDurationRange: ClosedRange<Double> = 0.1...1.0
     static let liquidStrengthRange: ClosedRange<Double> = 0...1
     static let hudScaleRange: ClosedRange<Double> = 0.8...1.6
 
@@ -47,6 +50,8 @@ enum Settings {
         defaults.register(defaults: [
             Key.showHUD: true,
             Key.hudDuration: 0.8,
+            Key.hudFade: true,
+            Key.hudFadeDuration: 0.3,
             Key.hudTheme: HUDTheme.system.rawValue,
             Key.hudStyle: HUDStyle.liquidGlass.rawValue,
             Key.glassStyle: GlassStyle.clear.rawValue,
@@ -68,6 +73,11 @@ enum Settings {
 
     static var hudDuration: Double {
         defaults.double(forKey: Key.hudDuration).clamped(to: durationRange)
+    }
+
+    /// Fade-in and fade-out time, or 0 when fading is turned off.
+    static var hudFadeDuration: Double {
+        defaults.bool(forKey: Key.hudFade) ? defaults.double(forKey: Key.hudFadeDuration).clamped(to: fadeDurationRange) : 0
     }
 
     static var glassStyle: GlassStyle {

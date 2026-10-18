@@ -56,23 +56,35 @@ final class HUD {
 
         generation += 1
         let shownGeneration = generation
+        let fade = Settings.hudFadeDuration
         panel.orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.12
-            panel.animator().alphaValue = 1
-        }
+        // Fading the whole window also fades the glass; fading only the content view
+        // would leave the glass outline behind.
+        animateAlpha(to: 1, duration: fade, timing: .easeOut)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + Settings.hudDuration) { [weak self] in
+        // The display time starts once the popup is fully visible.
+        DispatchQueue.main.asyncAfter(deadline: .now() + fade + Settings.hudDuration) { [weak self] in
             guard let self, self.generation == shownGeneration else { return }
-            NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 0.3
-                self.panel.animator().alphaValue = 0
-            }, completionHandler: { [weak self] in
+            self.animateAlpha(to: 0, duration: fade, timing: .easeIn) { [weak self] in
                 // A newer popup may have started while this one was fading out.
                 guard let self, self.generation == shownGeneration else { return }
                 self.panel.orderOut(nil)
-            })
+            }
         }
+    }
+
+    private func animateAlpha(to alpha: CGFloat, duration: TimeInterval,
+                              timing: CAMediaTimingFunctionName, completion: (() -> Void)? = nil) {
+        guard duration > 0 else {
+            panel.alphaValue = alpha
+            completion?()
+            return
+        }
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = duration
+            context.timingFunction = CAMediaTimingFunction(name: timing)
+            panel.animator().alphaValue = alpha
+        }, completionHandler: completion)
     }
 
     // MARK: Appearance

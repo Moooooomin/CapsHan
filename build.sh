@@ -10,8 +10,8 @@ cd "$(dirname "$0")"
 
 APP_NAME="CapsHan"
 BUNDLE_ID="${BUNDLE_ID:-io.github.moooooomin.capshan}"
-VERSION="${VERSION:-1.3.0}"
-BUILD_NUMBER="${BUILD_NUMBER:-4}"
+VERSION="${VERSION:-1.4.0}"
+BUILD_NUMBER="${BUILD_NUMBER:-5}"
 MIN_MACOS="13.0"
 
 BUILD_DIR="build"
