@@ -29,7 +29,7 @@ macOS의 'Caps Lock 키로 ABC 입력 소스 전환' 옵션은 더 이상 쓰이
 
 ## 설정
 
-앱 서랍이나 응용 프로그램 폴더에서 CapsHan을 누르면 설정창이 열립니다. 메뉴 막대 아이콘 > 설정…으로도 열 수 있어요.
+앱 서랍이나 응용 프로그램 폴더에서 CapsHan을 누르면 설정창이 열립니다. 메뉴 막대 아이콘 > 설정…으로도 열 수 있습니다.
 
 <p align="center">
   <img src="docs/images/settings.png" width="420" alt="CapsHan 설정창">
@@ -59,14 +59,14 @@ macOS의 'Caps Lock 키로 ABC 입력 소스 전환' 옵션은 더 이상 쓰이
 
 ## 동작 방식
 
-- Caps Lock을 F18로 리매핑하고, F18을 '이전 입력 소스 선택' 단축키로 지정합니다. macOS가 Caps Lock에 두는 판단 딜레이를 거치지 않아서 바로 바뀝니다. 대신 대문자 고정은 안 되니 대문자는 Shift로 쳐야 해요.
-- 키 리매핑은 재시동하면 풀려서 앱이 켜질 때마다 다시 적용합니다. 다른 키 리매핑은 건드리지 않아요.
-- 단축키를 다시 로그인하지 않고 바로 적용하려고 비공개 API(`CGSSetSymbolicHotKeyValue`)를 씁니다. 그래서 App Store에는 못 올리고, macOS 업데이트에 따라 동작이 바뀔 수 있습니다. 그래도 단축키 설정 자체는 저장되니 다시 로그인하면 적용돼요.
+- Caps Lock을 F18로 리매핑하고, F18을 '이전 입력 소스 선택' 단축키로 지정합니다. macOS가 Caps Lock에 두는 판단 딜레이를 거치지 않아서 바로 바뀝니다. 대신 대문자 고정은 안 되니 대문자는 Shift로 쳐야 합니다.
+- 키 리매핑은 재시동하면 풀려서 앱이 켜질 때마다 다시 적용합니다. 다른 키 리매핑은 건드리지 않습니다.
+- 단축키를 다시 로그인하지 않고 바로 적용하려고 비공개 API(`CGSSetSymbolicHotKeyValue`)를 씁니다. 그래서 App Store에는 못 올리고, macOS 업데이트에 따라 동작이 바뀔 수 있습니다. 그래도 단축키 설정 자체는 저장되니 다시 로그인하면 적용됩니다.
 - 입력 소스가 바뀌었다는 시스템 알림을 받아서 팝업과 메뉴 막대 아이콘을 갱신합니다.
 
 ## 개인정보
 
-네트워크를 쓰지 않고, 데이터도 수집하지 않습니다. 설정은 `~/Library/Preferences/io.github.moooooomin.capshan.plist`에만 저장됩니다. 손쉬운 사용이나 입력 모니터링 같은 권한도 필요 없어요.
+네트워크를 쓰지 않고, 데이터도 수집하지 않습니다. 설정은 `~/Library/Preferences/io.github.moooooomin.capshan.plist`에만 저장됩니다. 손쉬운 사용이나 입력 모니터링 같은 권한도 필요 없습니다.
 
 ## 제거
 
@@ -86,11 +86,11 @@ Xcode 없이 Command Line Tools만 있으면 됩니다.
 ./build.sh
 ```
 
-`build/CapsHan.app`과 `dist/CapsHan-<버전>.dmg`가 만들어집니다. 환경 변수로 값을 바꿀 수 있어요.
+`build/CapsHan.app`과 `dist/CapsHan-<버전>.dmg`가 만들어집니다. 환경 변수로 값을 바꿀 수 있습니다.
 
 | 변수 | 기본값 | 설명 |
 | --- | --- | --- |
-| `BUNDLE_ID` | `io.github.moooooomin.capshan` | 포크해서 따로 배포한다면 바꿔 주세요 |
+| `BUNDLE_ID` | `io.github.moooooomin.capshan` | 포크해서 따로 배포한다면 바꿔야 합니다 |
 | `VERSION` | `1.3.0` | 표시 버전 |
 | `BUILD_NUMBER` | `4` | 빌드 번호 |
 | `SIGN_IDENTITY` | 없음 (ad-hoc 서명) | `Developer ID Application: …` 인증서 이름 |
