@@ -1,0 +1,5 @@
+# Build output (DMGs are attached to GitHub Releases, not committed)
+build/
+dist/
+
+.DS_Store
