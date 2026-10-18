@@ -201,7 +201,7 @@ private struct SettingsView: View {
     private var footerText: String {
         var text = "테마를 '시스템 설정'으로 두면 다크 모드를 켜고 끌 때 팝업도 함께 바뀌어요."
         if Settings.isLiquidGlassAvailable {
-            text += " 리퀴드 느낌은 '맑은 유리'에 강도를 높일수록, 팝업이 클수록 진해져요. 강도를 낮추면 젖빛 유리처럼 돼요."
+            text += " 리퀴드 느낌은 '맑은 유리'에 강도를 높일수록, 팝업이 클수록 진해져요. 강도를 낮추면 유리가 뿌옇게 돼요."
         } else {
             text += " 리퀴드 글래스는 macOS 26 이상에서 쓸 수 있어요."
         }
