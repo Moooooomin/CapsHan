@@ -3,6 +3,11 @@
 맥에서 Caps Lock으로 한/영 바꿀 때 딜레이가 거슬려서 만든 메뉴 막대 앱입니다.
 Caps Lock을 누르면 바로 한/영이 바뀌고, 화면 아래에 지금 입력 언어가 잠깐 표시됩니다.
 
+<p align="center">
+  <img src="docs/images/popup-ko-dark.png" width="370" alt="한글로 바꿨을 때 팝업 (리퀴드 글래스, 다크)">
+  <img src="docs/images/popup-en-light.png" width="370" alt="영어로 바꿨을 때 팝업 (리퀴드 글래스, 라이트)">
+</p>
+
 ## 기능
 
 - Caps Lock 한/영 전환 딜레이 제거
@@ -25,6 +30,16 @@ macOS의 'Caps Lock 키로 ABC 입력 소스 전환' 옵션은 더 이상 쓰이
 ## 설정
 
 앱 서랍이나 응용 프로그램 폴더에서 CapsHan을 누르면 설정창이 열립니다. 메뉴 막대 아이콘 > 설정…으로도 열 수 있어요.
+
+<p align="center">
+  <img src="docs/images/settings.png" width="420" alt="CapsHan 설정창">
+</p>
+
+팝업 디자인은 리퀴드 글래스와 클래식 중에 고를 수 있고, 리퀴드 글래스는 유리 질감을 바꿀 수 있습니다.
+
+| 리퀴드 글래스 (맑은 유리) | 클래식 |
+| --- | --- |
+| <img src="docs/images/popup-ko-clear.png" width="370" alt="맑은 유리 팝업"> | <img src="docs/images/popup-en-classic.png" width="370" alt="클래식 팝업"> |
 
 | 항목 | 설명 |
 | --- | --- |
@@ -102,6 +117,7 @@ Sources/
   LoginItem.swift       로그인 시 자동 실행
 Resources/Info.plist    번들 정보
 scripts/make-icon.swift 앱 아이콘 생성
+docs/images/            스크린샷
 build.sh                빌드, 서명, DMG
 ```
 
