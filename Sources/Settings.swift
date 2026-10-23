@@ -34,6 +34,8 @@ enum Settings {
         static let liquidStrength = "liquidStrength"
         static let hudScale = "hudScale"
         static let capsLockSwitch = "capsLockSwitch"
+        static let longPressCapsLock = "longPressCapsLock"
+        static let longPressDuration = "longPressDuration"
         static let menuBarIcon = "menuBarIcon"
         static let hideSystemInputMenu = "hideSystemInputMenu"
         static let loginItemConfigured = "loginItemConfigured"
@@ -43,6 +45,7 @@ enum Settings {
     static let fadeDurationRange: ClosedRange<Double> = 0.1...1.0
     static let liquidStrengthRange: ClosedRange<Double> = 0...1
     static let hudScaleRange: ClosedRange<Double> = 0.8...1.6
+    static let longPressRange: ClosedRange<Double> = 0.3...1.0
 
     private static var defaults: UserDefaults { .standard }
 
@@ -58,6 +61,8 @@ enum Settings {
             Key.liquidStrength: 0.8,
             Key.hudScale: 1.0,
             Key.capsLockSwitch: true,
+            Key.longPressCapsLock: true,
+            Key.longPressDuration: 0.5,
             Key.menuBarIcon: MenuBarIconStyle.hanYeong.rawValue,
             Key.hideSystemInputMenu: false,
         ])
@@ -65,6 +70,11 @@ enum Settings {
 
     static var showHUD: Bool { defaults.bool(forKey: Key.showHUD) }
     static var capsLockSwitch: Bool { defaults.bool(forKey: Key.capsLockSwitch) }
+    static var longPressCapsLock: Bool { defaults.bool(forKey: Key.longPressCapsLock) }
+
+    static var longPressDuration: Double {
+        defaults.double(forKey: Key.longPressDuration).clamped(to: longPressRange)
+    }
     static var hideSystemInputMenu: Bool { defaults.bool(forKey: Key.hideSystemInputMenu) }
 
     static var menuBarIcon: MenuBarIconStyle {

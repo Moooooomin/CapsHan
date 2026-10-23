@@ -45,6 +45,8 @@ private struct SettingsView: View {
     @AppStorage(Settings.Key.liquidStrength) private var liquidStrength = 0.8
     @AppStorage(Settings.Key.hudScale) private var hudScale = 1.0
     @AppStorage(Settings.Key.capsLockSwitch) private var capsLockSwitch = true
+    @AppStorage(Settings.Key.longPressCapsLock) private var longPressCapsLock = true
+    @AppStorage(Settings.Key.longPressDuration) private var longPressDuration = 0.5
     @AppStorage(Settings.Key.menuBarIcon) private var menuBarIcon = MenuBarIconStyle.hanYeong
     @AppStorage(Settings.Key.hideSystemInputMenu) private var hideSystemInputMenu = false
     @State private var launchAtLogin = LoginItem.isEnabled
@@ -145,6 +147,18 @@ private struct SettingsView: View {
                     Text("Caps Lock으로 한/영 전환")
                     Text("끄면 Caps Lock과 '이전 입력 소스 선택' 단축키가 원래대로 돌아가요.")
                 }
+
+                Group {
+                    Toggle(isOn: $longPressCapsLock) {
+                        Text("길게 누르면 Caps Lock 켜기")
+                        Text("길게 누르면 대문자 고정이 켜지고 영문으로 바뀌어요. 켜진 상태에서 한 번 누르면 꺼져요.")
+                    }
+
+                    sliderRow("길게 누르는 시간", value: $longPressDuration, in: Settings.longPressRange, step: 0.1,
+                              label: String(format: "%.1f초", longPressDuration))
+                        .disabled(!longPressCapsLock)
+                }
+                .disabled(!capsLockSwitch)
             }
 
             Section("일반") {

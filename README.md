@@ -11,6 +11,7 @@ Caps Lock을 누르면 바로 한/영이 바뀌고, 화면 아래에 지금 입�
 ## 기능
 
 - Caps Lock 한/영 전환 딜레이 제거
+- Caps Lock을 길게 누르면 원래 Caps Lock(대문자 고정) 켜기/끄기
 - 전환할 때 화면 하단 팝업 (`가 한글` / `A 영어`)
   - 리퀴드 글래스(macOS 26) / 클래식 디자인, 다크 모드 대응
   - 팝업 크기, 표시 시간, 페이드 인/아웃, 유리 투명도 조절
@@ -54,13 +55,16 @@ macOS의 'Caps Lock 키로 ABC 입력 소스 전환' 옵션은 더 이상 쓰이
 | 메뉴 막대 아이콘 | 한/영, 한/A, 키보드 |
 | 기본 입력 메뉴 숨기기 | macOS 기본 입력 아이콘 숨김. CapsHan을 종료하면 다시 보임 |
 | Caps Lock으로 한/영 전환 | 끄면 Caps Lock이 원래대로 돌아옴 |
+| 길게 누르면 Caps Lock 켜기 | 켜기/끄기 |
+| 길게 누르는 시간 | 0.3~1.0초 (기본 0.5초) |
 | 로그인 시 자동 실행 | 로그인 항목 등록/해제 |
 
 기본 입력 메뉴를 숨겨도 CapsHan 메뉴 막대 아이콘에서 입력 소스를 고를 수 있습니다.
 
 ## 동작 방식
 
-- Caps Lock을 F18로 리매핑하고, F18을 '이전 입력 소스 선택' 단축키로 지정합니다. macOS가 Caps Lock에 두는 판단 딜레이를 거치지 않아서 바로 바뀝니다. 대신 대문자 고정은 안 되니 대문자는 Shift로 쳐야 합니다.
+- Caps Lock을 F18로 리매핑하고, F18을 '이전 입력 소스 선택' 단축키로 지정합니다. macOS가 Caps Lock에 두는 판단 딜레이를 거치지 않아서 바로 바뀝니다.
+- 대문자 고정은 Caps Lock을 길게 눌렀다 떼면 켜지고, 다시 길게 누르거나 짧게 한 번 누르면 꺼집니다. 켤 때는 영문으로 바뀝니다. 키가 눌려 있는지는 시스템의 키 상태를 0.03초마다 읽어서 확인하고, 대문자 고정은 HID 시스템에 직접 켭니다. 둘 다 따로 권한이 필요 없습니다.
 - 키 리매핑은 재시동하면 풀려서 앱이 켜질 때마다 다시 적용합니다. 다른 키 리매핑은 건드리지 않습니다.
 - 단축키를 다시 로그인하지 않고 바로 적용하려고 비공개 API(`CGSSetSymbolicHotKeyValue`)를 씁니다. 그래서 App Store에는 못 올리고, macOS 업데이트에 따라 동작이 바뀔 수 있습니다. 그래도 단축키 설정 자체는 저장되니 다시 로그인하면 적용됩니다.
 - 입력 소스가 바뀌었다는 시스템 알림을 받아서 팝업과 메뉴 막대 아이콘을 갱신합니다.
@@ -92,8 +96,8 @@ Xcode 없이 Command Line Tools만 있으면 됩니다.
 | 변수 | 기본값 | 설명 |
 | --- | --- | --- |
 | `BUNDLE_ID` | `io.github.moooooomin.capshan` | 포크해서 따로 배포한다면 바꿔야 합니다 |
-| `VERSION` | `1.4.0` | 표시 버전 |
-| `BUILD_NUMBER` | `5` | 빌드 번호 |
+| `VERSION` | `1.5.0` | 표시 버전 |
+| `BUILD_NUMBER` | `6` | 빌드 번호 |
 | `SIGN_IDENTITY` | 없음 (ad-hoc 서명) | `Developer ID Application: …` 인증서 이름 |
 
 Developer ID로 서명하고 공증하면 경고 없이 열립니다 (Apple Developer Program 필요).
@@ -115,6 +119,7 @@ Sources/
   MenuBar.swift         메뉴 막대 아이콘, 기본 입력 메뉴 숨기기
   InputSource.swift     입력 소스 정보
   CapsLockSwitch.swift  Caps Lock 리매핑, 단축키 변경
+  CapsLockKey.swift     길게 누르면 Caps Lock 켜기/끄기
   LoginItem.swift       로그인 시 자동 실행
 Resources/Info.plist    번들 정보
 scripts/make-icon.swift 앱 아이콘 생성

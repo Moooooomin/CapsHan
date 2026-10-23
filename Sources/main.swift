@@ -3,6 +3,7 @@ import Carbon
 
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let hud = HUD()
+    private let capsLockKey = CapsLockKey()
     private lazy var settingsWindow = SettingsWindow { [weak self] in self?.previewHUD() }
     private var statusItem: NSStatusItem!
     private var lastSourceID: String?
@@ -23,14 +24,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             SystemInputMenu.setVisible(false)
         }
 
+        capsLockKey.onCapsLockChange = { [weak self] on in self?.showCapsLockHUD(on) }
+        capsLockKey.updateWatching()
         lastSourceID = InputSource.current()?.id
         DistributedNotificationCenter.default().addObserver(
             self, selector: #selector(inputSourceDidChange),
             name: Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String),
             object: nil, suspensionBehavior: .deliverImmediately)
-        // Picks up icon style changes from the settings window.
+        // Picks up changes made in the settings window.
         NotificationCenter.default.addObserver(
-            self, selector: #selector(refreshStatusIcon),
+            self, selector: #selector(settingsDidChange),
             name: UserDefaults.didChangeNotification, object: nil)
 
         setUpMenus()
@@ -61,12 +64,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // turn and only react when it really changed.
         DispatchQueue.main.async { [weak self] in
             guard let self, let source = InputSource.current(), source.id != self.lastSourceID else { return }
+            let previousID = self.lastSourceID
             self.lastSourceID = source.id
             self.refreshStatusIcon()
+            // Switches CapsHan makes for Caps Lock, and presses that only toggled Caps Lock,
+            // get the Caps Lock popup instead of the 한/영 one.
+            if self.capsLockKey.handleInputSourceChange(from: previousID, to: source.id) { return }
             if Settings.showHUD {
                 self.hud.show(glyph: source.glyph, caption: source.caption)
             }
         }
+    }
+
+    @objc private func settingsDidChange() {
+        refreshStatusIcon()
+        capsLockKey.updateWatching()
+    }
+
+    private func showCapsLockHUD(_ on: Bool) {
+        guard Settings.showHUD else { return }
+        hud.show(glyph: "⇪", caption: on ? "Caps Lock 켜짐" : "Caps Lock 꺼짐")
     }
 
     private func previewHUD() {
